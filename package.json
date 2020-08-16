@@ -38,6 +38,12 @@
   "prettier": {
     "printWidth": 160
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "pre-push": "npm run lint"
+    }
+  },
   "devDependencies": {
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
