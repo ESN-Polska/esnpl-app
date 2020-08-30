@@ -23,7 +23,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write '**/*.{js,ts,css,scss,json, html}'",
-    "lint": "./node_modules/.bin/eslint 'src/**/*.{js,ts,tsx}'"
+    "lint": "./node_modules/.bin/eslint ./src/**/*.{js,ts,tsx}"
   },
   "browserslist": {
     "production": [
