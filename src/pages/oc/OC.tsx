@@ -1,16 +1,16 @@
-import { IonHeader, IonToolbar, IonTitle, IonPage } from "@ionic/react";
+import { IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import React from "react";
 
-function Agenda() {
+function OC() {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Agenda</IonTitle>
+          <IonTitle>OC</IonTitle>
         </IonToolbar>
       </IonHeader>
     </IonPage>
   );
 }
 
-export default Agenda;
+export default OC;

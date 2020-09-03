@@ -1,16 +1,16 @@
-import { IonHeader, IonToolbar, IonTitle, IonPage } from "@ionic/react";
+import { IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import React from "react";
 
-function Stream() {
+function Map() {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Stream</IonTitle>
+          <IonTitle>Map</IonTitle>
         </IonToolbar>
       </IonHeader>
     </IonPage>
   );
 }
 
-export default Stream;
+export default Map;

@@ -1,16 +1,16 @@
-import { IonHeader, IonToolbar, IonTitle, IonPage } from "@ionic/react";
+import { IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import React from "react";
 
-function OC() {
+function Stream() {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>OC</IonTitle>
+          <IonTitle>Stream</IonTitle>
         </IonToolbar>
       </IonHeader>
     </IonPage>
   );
 }
 
-export default OC;
+export default Stream;

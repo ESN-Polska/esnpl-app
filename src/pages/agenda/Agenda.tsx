@@ -1,16 +1,16 @@
-import { IonHeader, IonToolbar, IonTitle, IonPage } from "@ionic/react";
+import { IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import React from "react";
 
-function Map() {
+function Agenda() {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Map</IonTitle>
+          <IonTitle>Agenda</IonTitle>
         </IonToolbar>
       </IonHeader>
     </IonPage>
   );
 }
 
-export default Map;
+export default Agenda;
