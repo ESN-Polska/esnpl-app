@@ -1,19 +1,20 @@
-import { IonApp, IonTabBar, IonTabButton, IonIcon, IonLabel, IonTabs, IonRouterOutlet } from "@ionic/react";
-import { Route, Redirect } from "react-router-dom";
+import { IonApp, IonIcon, IonLabel, IonTabBar, IonTabButton, IonTabs, IonRouterOutlet } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import {
   calendarOutline as calendarIcon,
-  wifiOutline as wifiIcon,
   documentAttachOutline as docIcon,
-  peopleOutline as peopleIcon,
   mapOutline as mapIcon,
+  peopleOutline as peopleIcon,
+  wifiOutline as wifiIcon,
 } from "ionicons/icons";
 import React from "react";
-import Agenda from "./pages/Agenda";
-import Stream from "./pages/Stream";
-import Documents from "./pages/Documents";
-import OC from "./pages/OC";
-import Map from "./pages/Map";
+import { Route, Redirect } from "react-router-dom";
+
+import Agenda from "./pages/agenda/Agenda";
+import Documents from "./pages/documents/Documents";
+import Map from "./pages/map/Map";
+import OC from "./pages/oc/OC";
+import Stream from "./pages/stream/Stream";
 
 const App: React.FC = () => {
   return (
