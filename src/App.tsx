@@ -26,7 +26,7 @@ const App: React.FC = () => {
             <Route path="/stream" component={Stream} exact={true} />
             <Route path="/documents" component={Documents} exact={true} />
             <Route path="/OC" component={OC} exact={true} />
-            <Route path="/map" component={Map} exact={true} />
+            {/* <Route path="/map" component={Map} exact={true} /> */}
             <Route path="/" render={() => <Redirect to="/agenda" />} exact={true} />
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
@@ -46,10 +46,10 @@ const App: React.FC = () => {
               <IonIcon icon={peopleIcon} />
               <IonLabel>OC</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="map" href="/map">
+            {/* <IonTabButton tab="map" href="/map">
               <IonIcon icon={mapIcon} />
               <IonLabel>Map</IonLabel>
-            </IonTabButton>
+            </IonTabButton> */}
           </IonTabBar>
         </IonTabs>
       </IonReactRouter>
