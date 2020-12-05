@@ -1,0 +1,25 @@
+.agenda-item {
+  display: flex;
+  flex-direction: row;
+
+  .time-slot {
+    width: 20%;
+
+    .primary-data-field {
+      font-weight: 500;
+      // font-size: 18px;
+    }
+
+    .secondary-data-field {
+      font-size: 11px;
+    }
+  }
+
+  .rest-slot {
+    width: 80%;
+
+    .speaker-field {
+      font-size: 12px;
+    }
+  }
+}
