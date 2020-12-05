@@ -3,7 +3,7 @@ import { IonReactRouter } from "@ionic/react-router";
 import {
   calendarOutline as calendarIcon,
   documentAttachOutline as docIcon,
-  mapOutline as mapIcon,
+  // mapOutline as mapIcon,
   peopleOutline as peopleIcon,
   wifiOutline as wifiIcon,
 } from "ionicons/icons";
@@ -12,7 +12,7 @@ import { Route, Redirect } from "react-router-dom";
 
 import Agenda from "./pages/agenda/Agenda";
 import Documents from "./pages/documents/Documents";
-import Map from "./pages/map/Map";
+// import Map from "./pages/map/Map";
 import OC from "./pages/oc/OC";
 import Stream from "./pages/stream/Stream";
 
