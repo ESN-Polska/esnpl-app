@@ -8,9 +8,9 @@ interface AgendaItem {
   startTime: string;
   duration: string;
   topic: string;
-  type: string; //todo enum
+  type: string; //TODO: change to enum
   speaker: string;
-  day: string; //todo: enum
+  day: string; //TODO: change to enum
 }
 
 const createAgendaItem = (rawEntry: any): AgendaItem | undefined => {
@@ -26,12 +26,38 @@ const createAgendaItem = (rawEntry: any): AgendaItem | undefined => {
   };
 };
 
+const AgendaItems = ({ agendaData }: { agendaData: AgendaItem[] }) => (
+  <IonList>
+    {agendaData.map(
+      (item: AgendaItem) =>
+        item && (
+          <IonItem>
+            <IonLabel>
+              <div className="agenda-item">
+                <div className="time-slot">
+                  <p className="secondary-data-field">{item.day}</p>
+                  <h2 className="primary-data-field">{item.startTime}</h2>
+                  <p className="secondary-data-field">{item.duration}</p>
+                </div>
+                <div className="rest-slot">
+                  <h3 className="topic-field">{item.topic}</h3>
+                  <p className="speaker-field">Speaker: {item.speaker} </p>
+                </div>
+              </div>
+            </IonLabel>
+          </IonItem>
+        )
+    )}
+  </IonList>
+);
+
 function Agenda() {
   const [agendaData, setAgendaData] = useState([]);
 
   useEffect(() => {
     let agendaSumData: any = [];
 
+    //TODO: add feature to refresh agenda
     API.getAgenda()
       .then((dataArr: { data: any }[]) =>
         dataArr.map(
@@ -53,27 +79,6 @@ function Agenda() {
       });
   }, []);
 
-  const agendaItems = agendaData.map(
-    (item: AgendaItem | undefined) =>
-      item && (
-        <IonItem>
-          <IonLabel>
-            <div className="agenda-item">
-              <div className="time-slot">
-                <p className="secondary-data-field">{item.day}</p>
-                <h2 className="primary-data-field">{item.startTime}</h2>
-                <p className="secondary-data-field">{item.duration}</p>
-              </div>
-              <div className="rest-slot">
-                <h3 className="topic-field">{item.topic}</h3>
-                <p className="speaker-field">Speaker: {item.speaker} </p>
-              </div>
-            </div>
-          </IonLabel>
-        </IonItem>
-      )
-  );
-
   return (
     <IonPage>
       <IonHeader>
@@ -82,7 +87,7 @@ function Agenda() {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>{agendaItems}</IonList>
+        <AgendaItems agendaData={agendaData} />
       </IonContent>
     </IonPage>
   );
