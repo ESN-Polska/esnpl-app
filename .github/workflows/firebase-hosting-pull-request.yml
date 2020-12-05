@@ -16,3 +16,4 @@ jobs:
           projectId: esnplappv2
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
+          CI: ""
