@@ -40,7 +40,9 @@ function Agenda() {
               ...agendaSumData,
               ...arr.data.values
                 .map((rawItem: string[]) => {
-                  if (rawItem[2] !== "PLANNED") return createAgendaItem(rawItem);
+                  if (rawItem[2] === "PLANNED") return undefined;
+
+                  return createAgendaItem(rawItem);
                 })
                 .filter((value: any) => value !== undefined),
             ])
