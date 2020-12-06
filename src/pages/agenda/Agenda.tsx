@@ -1,4 +1,5 @@
-import { IonHeader, IonPage, IonTitle, IonToolbar, IonContent, IonList, IonLabel, IonItem } from "@ionic/react";
+import { IonHeader, IonPage, IonTitle, IonToolbar, IonContent, IonList, IonLabel, IonItem, IonRefresher, IonRefresherContent } from "@ionic/react";
+import { RefresherEventDetail } from "@ionic/core";
 import React, { useEffect, useState } from "react";
 import "./Agenda.scss";
 
@@ -41,8 +42,8 @@ const createAgendaItem = (rawEntry: any): AgendaEntry | undefined => {
   };
 };
 
-const AgendaItemsList = ({ agendaData }: { agendaData: AgendaEntry[] }) => (
-  <IonList>
+const AgendaItemsListContent = ({ agendaData }: { agendaData: AgendaEntry[] }) => (
+  <>
     {agendaData.map((item: AgendaEntry | string, iterator: number) => {
       if (!item) return undefined;
 
@@ -52,7 +53,7 @@ const AgendaItemsList = ({ agendaData }: { agendaData: AgendaEntry[] }) => (
         <AgendaEntryItem itemData={item} key={`agenda-item-${iterator}`} />
       );
     })}
-  </IonList>
+  </>
 );
 
 const AgendaEntryItem = ({ itemData }: { itemData: AgendaEntry }) => (
@@ -85,10 +86,14 @@ function Agenda() {
   const [agendaData, setAgendaData] = useState([]);
 
   useEffect(() => {
+    getLastestAgenda();
+  }, []);
+
+  const getLastestAgenda = () => {
     let agendaSumData: any = [];
 
     //TODO: add feature to refresh agenda
-    API.getAgenda()
+    return API.getAgenda()
       .then((dataArr: { data: any }[]) =>
         dataArr.map(
           (arr) =>
@@ -107,7 +112,13 @@ function Agenda() {
       .then(() => {
         setAgendaData(agendaSumData);
       });
-  }, []);
+  };
+
+  const refreshAgenda = (event: CustomEvent<RefresherEventDetail>) => {
+    getLastestAgenda().then(() => {
+      event.detail.complete();
+    });
+  };
 
   return (
     <IonPage>
@@ -117,7 +128,12 @@ function Agenda() {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <AgendaItemsList agendaData={agendaData} />
+        <IonList>
+          <IonRefresher slot="fixed" onIonRefresh={refreshAgenda}>
+            <IonRefresherContent></IonRefresherContent>
+          </IonRefresher>
+          <AgendaItemsListContent agendaData={agendaData} />
+        </IonList>
       </IonContent>
     </IonPage>
   );
