@@ -1,6 +1,8 @@
 import { IonHeader, IonPage, IonTitle, IonToolbar, IonContent, IonList, IonLabel, IonItem, IonRefresher, IonRefresherContent } from "@ionic/react";
 import { RefresherEventDetail } from "@ionic/core";
 import React, { useEffect, useState } from "react";
+import { chevronDownCircleOutline } from "ionicons/icons";
+
 import "./Agenda.scss";
 
 import API from "../../utils/backend";
@@ -130,7 +132,12 @@ function Agenda() {
       <IonContent>
         <IonList>
           <IonRefresher slot="fixed" onIonRefresh={refreshAgenda}>
-            <IonRefresherContent></IonRefresherContent>
+            <IonRefresherContent
+              pullingIcon={chevronDownCircleOutline}
+              pullingText="Pull to refresh"
+              refreshingSpinner="circles"
+              refreshingText="Refreshing..."
+            />
           </IonRefresher>
           <AgendaItemsListContent agendaData={agendaData} />
         </IonList>

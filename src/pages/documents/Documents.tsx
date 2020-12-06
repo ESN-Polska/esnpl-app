@@ -1,6 +1,7 @@
 import { IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonLabel, IonContent, IonList, IonRefresher, IonRefresherContent } from "@ionic/react";
 import { RefresherEventDetail } from "@ionic/core";
 import React, { useState, useEffect } from "react";
+import { chevronDownCircleOutline } from "ionicons/icons";
 
 import API from "../../utils/backend";
 
@@ -54,7 +55,12 @@ function Documents() {
       <IonContent>
         <IonList>
           <IonRefresher slot="fixed" onIonRefresh={refreshDocs}>
-            <IonRefresherContent></IonRefresherContent>
+            <IonRefresherContent
+              pullingIcon={chevronDownCircleOutline}
+              pullingText="Pull to refresh"
+              refreshingSpinner="circles"
+              refreshingText="Refreshing..."
+            />
           </IonRefresher>
           {documentsData.map((entry: DocumentObject) => (
             <DocumentsItem documentObject={entry} key={entry.key} />
