@@ -18,6 +18,11 @@
   .rest-slot {
     width: 80%;
 
+    .topic-field {
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+
     .speaker-field {
       font-size: 12px;
     }
