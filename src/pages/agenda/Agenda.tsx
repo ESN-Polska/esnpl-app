@@ -13,6 +13,21 @@ interface AgendaItem {
   day: string; //TODO: change to enum
 }
 
+enum dayName {
+  FRI = "Friday",
+  SAT = "Saturday",
+  SUN = "Sunday",
+}
+
+//TODO: improve after 8hrs of good sleep....
+const getDayName = (name: string) => {
+  if (name === "FRI") return dayName.FRI;
+
+  if (name === "SAT") return dayName.SAT;
+
+  if (name === "SUN") return dayName.SUN;
+};
+
 const createAgendaItem = (rawEntry: any): AgendaItem | undefined => {
   if (!(rawEntry[2] && rawEntry[3] && rawEntry[4] && rawEntry[5] && rawEntry[6])) return;
 
@@ -28,27 +43,38 @@ const createAgendaItem = (rawEntry: any): AgendaItem | undefined => {
 
 const AgendaItems = ({ agendaData }: { agendaData: AgendaItem[] }) => (
   <IonList>
-    {agendaData.map(
-      (item: AgendaItem) =>
-        item && (
-          <IonItem>
-            <IonLabel>
-              <div className="agenda-item">
-                <div className="time-slot">
-                  <p className="secondary-data-field">{item.day}</p>
-                  <h2 className="primary-data-field">{item.startTime}</h2>
-                  <p className="secondary-data-field">{item.duration}</p>
-                </div>
-                <div className="rest-slot">
-                  <h3 className="topic-field">{item.topic}</h3>
-                  <p className="speaker-field">Speaker: {item.speaker} </p>
-                </div>
-              </div>
-            </IonLabel>
-          </IonItem>
-        )
-    )}
+    {agendaData.map((item: AgendaItem | string) => {
+      if (!item) return undefined;
+
+      return typeof item === "string" ? <AgendaDividerItem dayName={item} /> : <AgendaEntryItemComponent itemData={item} />;
+    })}
   </IonList>
+);
+
+const AgendaEntryItemComponent = ({ itemData }: { itemData: AgendaItem }) => (
+  <IonItem>
+    <IonLabel>
+      <div className="agenda-item">
+        <div className="time-slot">
+          <p className="secondary-data-field">{itemData.day}</p>
+          <h2 className="primary-data-field">{itemData.startTime}</h2>
+          <p className="secondary-data-field">{itemData.duration}</p>
+        </div>
+        <div className="rest-slot">
+          <h3 className="topic-field">{itemData.topic}</h3>
+          <p className="speaker-field">Speaker: {itemData.speaker} </p>
+        </div>
+      </div>
+    </IonLabel>
+  </IonItem>
+);
+
+const AgendaDividerItem = ({ dayName }: { dayName: string }) => (
+  <IonItem>
+    <IonLabel>
+      <h1>{dayName}</h1>
+    </IonLabel>
+  </IonItem>
 );
 
 function Agenda() {
@@ -64,10 +90,10 @@ function Agenda() {
           (arr) =>
             (agendaSumData = [
               ...agendaSumData,
+              getDayName(arr.data.values[1][11]),
               ...arr.data.values
                 .map((rawItem: string[]) => {
                   if (rawItem[2] === "PLANNED") return undefined;
-
                   return createAgendaItem(rawItem);
                 })
                 .filter((value: any) => value !== undefined),
