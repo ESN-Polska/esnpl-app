@@ -63,7 +63,6 @@ const AgendaEntryItem = ({ itemData }: { itemData: AgendaEntry }) => (
     <IonLabel>
       <div className="agenda-item">
         <div className="time-slot">
-          <p className="secondary-data-field">{itemData.day}</p>
           <h2 className="primary-data-field">{itemData.startTime}</h2>
           <p className="secondary-data-field">{itemData.duration}</p>
         </div>
