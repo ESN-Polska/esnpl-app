@@ -4,7 +4,7 @@ import "./Agenda.scss";
 
 import API from "../../utils/backend";
 
-interface AgendaItem {
+interface AgendaEntry {
   startTime: string;
   duration: string;
   topic: string;
@@ -28,7 +28,7 @@ const getDayName = (name: string) => {
   if (name === "SUN") return dayName.SUN;
 };
 
-const createAgendaItem = (rawEntry: any): AgendaItem | undefined => {
+const createAgendaItem = (rawEntry: any): AgendaEntry | undefined => {
   if (!(rawEntry[2] && rawEntry[3] && rawEntry[4] && rawEntry[5] && rawEntry[6])) return;
 
   return {
@@ -41,17 +41,17 @@ const createAgendaItem = (rawEntry: any): AgendaItem | undefined => {
   };
 };
 
-const AgendaItems = ({ agendaData }: { agendaData: AgendaItem[] }) => (
+const AgendaItemsList = ({ agendaData }: { agendaData: AgendaEntry[] }) => (
   <IonList>
-    {agendaData.map((item: AgendaItem | string) => {
+    {agendaData.map((item: AgendaEntry | string) => {
       if (!item) return undefined;
 
-      return typeof item === "string" ? <AgendaDividerItem dayName={item} /> : <AgendaEntryItemComponent itemData={item} />;
+      return typeof item === "string" ? <AgendaDividerItem dayName={item} /> : <AgendaEntryItem itemData={item} />;
     })}
   </IonList>
 );
 
-const AgendaEntryItemComponent = ({ itemData }: { itemData: AgendaItem }) => (
+const AgendaEntryItem = ({ itemData }: { itemData: AgendaEntry }) => (
   <IonItem>
     <IonLabel>
       <div className="agenda-item">
@@ -113,7 +113,7 @@ function Agenda() {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <AgendaItems agendaData={agendaData} />
+        <AgendaItemsList agendaData={agendaData} />
       </IonContent>
     </IonPage>
   );
