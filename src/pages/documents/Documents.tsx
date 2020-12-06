@@ -1,4 +1,5 @@
-import { IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonLabel, IonContent, IonList } from "@ionic/react";
+import { IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonLabel, IonContent, IonList, IonRefresher, IonRefresherContent } from "@ionic/react";
+import { RefresherEventDetail } from "@ionic/core";
 import React, { useState, useEffect } from "react";
 
 import API from "../../utils/backend";
@@ -13,7 +14,10 @@ function Documents() {
   const [documentsData, setdocumentsData] = useState([]);
 
   useEffect(() => {
-    //TODO: add feature to refresh data
+    getLatestDocs();
+  }, []);
+
+  const getLatestDocs = () =>
     API.getDocuments()
       .then(({ data: { values } }: { data: { values: string[] } }) =>
         values.map((rawRow: any, index: number) => ({
@@ -25,7 +29,12 @@ function Documents() {
       .then((data: any) => {
         setdocumentsData(data);
       });
-  }, []);
+
+  const refreshDocs = (event: CustomEvent<RefresherEventDetail>) => {
+    getLatestDocs().then(() => {
+      event.detail.complete();
+    });
+  };
 
   const DocumentsItem = ({ documentObject }: { documentObject: DocumentObject }) => (
     <IonItem onClick={() => window.open(documentObject.url)}>
@@ -44,6 +53,9 @@ function Documents() {
       </IonHeader>
       <IonContent>
         <IonList>
+          <IonRefresher slot="fixed" onIonRefresh={refreshDocs}>
+            <IonRefresherContent></IonRefresherContent>
+          </IonRefresher>
           {documentsData.map((entry: DocumentObject) => (
             <DocumentsItem documentObject={entry} key={entry.key} />
           ))}

@@ -85,6 +85,10 @@ const AgendaDividerItem = ({ dayName }: { dayName: string }) => (
 function Agenda() {
   const [agendaData, setAgendaData] = useState([]);
 
+  useEffect(() => {
+    getLastestAgenda();
+  }, []);
+
   const getLastestAgenda = () => {
     let agendaSumData: any = [];
 
@@ -109,10 +113,6 @@ function Agenda() {
         setAgendaData(agendaSumData);
       });
   };
-
-  useEffect(() => {
-    getLastestAgenda();
-  }, []);
 
   const refreshAgenda = (event: CustomEvent<RefresherEventDetail>) => {
     getLastestAgenda().then(() => {
