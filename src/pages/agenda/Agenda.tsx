@@ -43,10 +43,14 @@ const createAgendaItem = (rawEntry: any): AgendaEntry | undefined => {
 
 const AgendaItemsList = ({ agendaData }: { agendaData: AgendaEntry[] }) => (
   <IonList>
-    {agendaData.map((item: AgendaEntry | string) => {
+    {agendaData.map((item: AgendaEntry | string, iterator: number) => {
       if (!item) return undefined;
 
-      return typeof item === "string" ? <AgendaDividerItem dayName={item} /> : <AgendaEntryItem itemData={item} />;
+      return typeof item === "string" ? (
+        <AgendaDividerItem dayName={item} key={`agenda-item-${iterator}`} />
+      ) : (
+        <AgendaEntryItem itemData={item} key={`agenda-item-${iterator}`} />
+      );
     })}
   </IonList>
 );
