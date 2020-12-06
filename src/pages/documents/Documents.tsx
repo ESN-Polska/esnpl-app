@@ -15,15 +15,14 @@ function Documents() {
   useEffect(() => {
     //TODO: add feature to refresh data
     API.getDocuments()
-      .then(({ data: { values } }: any) =>
+      .then(({ data: { values } }: { data: { values: string[] } }) =>
         values.map((rawRow: any, index: number) => ({
           name: rawRow[0],
           url: rawRow[1],
-          key: `doc-${index}`,
+          key: `doc-item-${index}`,
         }))
       )
       .then((data: any) => {
-        console.log("data", data);
         setdocumentsData(data);
       });
   }, []);
