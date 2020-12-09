@@ -24,6 +24,11 @@ const getDocuments = (): any => {
   return axios.get(createBeUrl(documentsKey));
 };
 
-export const API = { getAgenda, getDocuments };
+const getSpeakersList = (): any => {
+  const speakersListKey = "Lista mówców";
+  return axios.get(createAgendaUrl(speakersListKey));
+};
+
+export const API = { getAgenda, getDocuments, getSpeakersList };
 
 export default API;

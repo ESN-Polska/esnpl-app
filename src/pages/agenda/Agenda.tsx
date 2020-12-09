@@ -93,7 +93,6 @@ function Agenda() {
   const getLastestAgenda = () => {
     let agendaSumData: any = [];
 
-    //TODO: add feature to refresh agenda
     return API.getAgenda()
       .then((dataArr: { data: any }[]) =>
         dataArr.map(
