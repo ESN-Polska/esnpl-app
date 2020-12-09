@@ -1,14 +1,74 @@
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
-import React from "react";
 
-//TODO: use real id
-const gId = "2PACX-1vTPE6tVWFXpJp21mGb9q99dXoMpMrWqskNvXu8rJrzpieVNexFB5tcbcyRKVKf_MmIfaq1vlQPIZhQn";
-const sheetId = "944840956";
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonRefresher,
+  IonFooter,
+  IonRefresherContent,
+} from "@ionic/react";
+import { RefresherEventDetail } from "@ionic/core";
+import React, { useEffect, useState } from "react";
+import { chevronDownCircleOutline } from "ionicons/icons";
 
-const speakersListUrl = `https://docs.google.com/spreadsheets/d/e/${gId}/pubhtml?gid=${sheetId}&range=a1:s45&single=true&widget=true&headers=false`;
-const editSpeakersListUrl = `https://docs.google.com/spreadsheets/d/1vlblH7pR2kxhAQuqWCAXCTbFj0CqiQtwC8z_zOsQ5FM/edit#gid=944840956`;
+
+import API from "../../utils/backend";
+
+const sheetId = "2092075977";
+const editSpeakersListUrl = `https://docs.google.com/spreadsheets/d/1ti9NVlr9dIpEn6_zEBsoeE1qsrSq7k_c_e4umP0Lv3Y/edit#gid=${sheetId}&single=true&amp;widget=true&amp;headers=false`;
+
+interface SpeakerListEntryObject {
+  id: string;
+  name: string;
+  isDone: string;
+}
+
+const createSpeakersListDataObject = (rawEntry: string[]) => ({
+  id: rawEntry[0],
+  name: rawEntry[1],
+  isDone: rawEntry[2],
+});
+const SpeakersListItem = ({ itemData }: { itemData: SpeakerListEntryObject }) => (
+  <IonItem>
+    <IonLabel>{itemData.name}</IonLabel>
+  </IonItem>
+);
+
+const SpeakersListListContent = ({ speakersListData }: { speakersListData: SpeakerListEntryObject[] }) => (
+  <>
+    {speakersListData.map((entry) => (
+      <SpeakersListItem key={`speakers-list-item-${entry.id}`} itemData={entry} />
+    ))}
+  </>
+);
+
 
 function SpeakersList() {
+  const [speakersListData, setSpeakersListData] = useState([]);
+
+  useEffect(() => {
+    getLatestSpeakersListData();
+  }, []);
+
+  const getLatestSpeakersListData = () => {
+    return API.getSpeakersList()
+      .then(({ data: { values } }: any) => values.map((rawEntry: string[]) => rawEntry[2] && createSpeakersListDataObject(rawEntry)))
+      .then((objectData: SpeakerListEntryObject[]) => objectData.filter((value: SpeakerListEntryObject) => value && value.name && value.isDone === "FALSE"))
+      .then(setSpeakersListData);
+  };
+
+  const refreshAgenda = (event: CustomEvent<RefresherEventDetail>) => {
+    getLatestSpeakersListData().then(() => {
+      event.detail.complete();
+    });
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -17,9 +77,26 @@ function SpeakersList() {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <iframe src={speakersListUrl} width="100%" height="90%" title="Speakers List"></iframe>
-        <IonButton onClick={() => window.open(editSpeakersListUrl)}> Sign up for the speakers list</IonButton>
+
+        <IonList>
+          <IonRefresher slot="fixed" onIonRefresh={refreshAgenda}>
+            <IonRefresherContent
+              pullingIcon={chevronDownCircleOutline}
+              pullingText="Pull to refresh"
+              refreshingSpinner="circles"
+              refreshingText="Refreshing..."
+            />
+          </IonRefresher>
+          <SpeakersListListContent speakersListData={speakersListData} />
+        </IonList>
+
       </IonContent>
+      <IonFooter className="ion-no-border">
+        <IonButton expand="full" onClick={() => window.open(editSpeakersListUrl)}>
+          {" "}
+          Sign up for the speakers list
+        </IonButton>
+      </IonFooter>
     </IonPage>
   );
 }
