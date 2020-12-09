@@ -1,3 +1,4 @@
+
 import {
   IonButton,
   IonContent,
@@ -15,6 +16,7 @@ import {
 import { RefresherEventDetail } from "@ionic/core";
 import React, { useEffect, useState } from "react";
 import { chevronDownCircleOutline } from "ionicons/icons";
+
 
 import API from "../../utils/backend";
 
@@ -46,6 +48,7 @@ const SpeakersListListContent = ({ speakersListData }: { speakersListData: Speak
   </>
 );
 
+
 function SpeakersList() {
   const [speakersListData, setSpeakersListData] = useState([]);
 
@@ -74,6 +77,7 @@ function SpeakersList() {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+
         <IonList>
           <IonRefresher slot="fixed" onIonRefresh={refreshAgenda}>
             <IonRefresherContent
@@ -85,6 +89,7 @@ function SpeakersList() {
           </IonRefresher>
           <SpeakersListListContent speakersListData={speakersListData} />
         </IonList>
+
       </IonContent>
       <IonFooter className="ion-no-border">
         <IonButton expand="full" onClick={() => window.open(editSpeakersListUrl)}>
