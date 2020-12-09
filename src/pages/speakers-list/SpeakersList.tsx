@@ -41,7 +41,7 @@ const SpeakersListItem = ({ itemData }: { itemData: SpeakerListEntryObject }) =>
 const SpeakersListListContent = ({ speakersListData }: { speakersListData: SpeakerListEntryObject[] }) => (
   <>
     {speakersListData.map((entry) => (
-      <SpeakersListItem itemData={entry} />
+      <SpeakersListItem key={`speakers-list-item-${entry.id}`} itemData={entry} />
     ))}
   </>
 );
