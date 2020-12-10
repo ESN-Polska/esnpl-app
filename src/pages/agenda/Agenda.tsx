@@ -8,6 +8,7 @@ import "./Agenda.scss";
 import API from "../../utils/backend";
 
 interface AgendaEntry {
+  isDone: boolean;
   startTime: string;
   duration: string;
   topic: string;
@@ -35,6 +36,7 @@ const createAgendaItem = (rawEntry: any): AgendaEntry | undefined => {
   if (!(rawEntry[2] && rawEntry[3] && rawEntry[4] && rawEntry[5] && rawEntry[6])) return;
 
   return {
+    isDone: rawEntry[0] && rawEntry[0] === "TRUE",
     startTime: rawEntry[2],
     duration: rawEntry[3],
     topic: rawEntry[4],
@@ -47,7 +49,7 @@ const createAgendaItem = (rawEntry: any): AgendaEntry | undefined => {
 const AgendaItemsListContent = ({ agendaData }: { agendaData: AgendaEntry[] }) => (
   <>
     {agendaData.map((item: AgendaEntry | string, iterator: number) => {
-      if (!item) return undefined;
+      if (!item || (typeof item === "object" && item.isDone)) return undefined;
 
       return typeof item === "string" ? (
         <AgendaDividerItem dayName={item} key={`agenda-item-${iterator}`} />
