@@ -7,8 +7,18 @@ import { Route, Redirect } from "react-router-dom";
 import Agenda from "./pages/agenda/Agenda";
 import Documents from "./pages/documents/Documents";
 import SpeakersList from "./pages/speakers-list/SpeakersList";
+import Countdown from "./pages/countdown/Countdown";
+
+const isAppDisabled = true;
 
 const App: React.FC = () => {
+  if (isAppDisabled)
+    return (
+      <IonApp>
+        <Countdown />
+      </IonApp>
+    );
+
   return (
     <IonApp>
       <IonReactRouter>
