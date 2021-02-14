@@ -6,19 +6,21 @@ import helpers from "./helpers";
 import "./Countdown.scss";
 
 const calculateTimeLeft = () => {
-  const timeTillDate = "12 25 2020, 9:00 am";
+  const timeTillDate = "03 26 2021, 9:00 am";
   const timeFormat = "MM DD YYYY, h:mm a";
 
   const then = moment(timeTillDate, timeFormat);
   const now = moment();
   //@ts-ignore
   const countdown = moment(then - now);
+  const months = (parseInt(countdown.format("M")) - 1).toString();
   const days = countdown.format("D");
   const hours = countdown.format("HH");
   const minutes = countdown.format("mm");
   const seconds = countdown.format("ss");
 
   return {
+    months,
     days,
     hours,
     minutes,
@@ -38,15 +40,14 @@ function Countdown() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
-      // setYear(new Date().getFullYear());
     }, 1000);
     // Clear timeout if the component is unmounted
     return () => clearTimeout(timer);
   });
 
-  const { days, hours, minutes, seconds } = timeLeft;
-
+  const { months, days, hours, minutes, seconds } = timeLeft;
   // Mapping the date values to radius values
+  const monthsRadius = helpers.mapNumber(months, 12, 0, 0, 360);
   const daysRadius = helpers.mapNumber(days, 30, 0, 0, 360);
   const hoursRadius = helpers.mapNumber(hours, 24, 0, 0, 360);
   const minutesRadius = helpers.mapNumber(minutes, 60, 0, 0, 360);
@@ -61,34 +62,41 @@ function Countdown() {
       </IonHeader>
       <IonContent>
         <div>
-          <h1>X-mas</h1>
+          <h1>Spotkanie delegatów</h1>
           <div className="countdown-wrapper">
+            {months && (
+              <div className="countdown-item">
+                <SVGCircle radius={monthsRadius} />
+                {months}
+                <span>{months === "1" ? "month" : "months"}</span>
+              </div>
+            )}
             {days && (
               <div className="countdown-item">
                 <SVGCircle radius={daysRadius} />
                 {days}
-                <span>days</span>
+                <span>{days === "1" ? "day" : "days"}</span>
               </div>
             )}
             {hours && (
               <div className="countdown-item">
                 <SVGCircle radius={hoursRadius} />
                 {hours}
-                <span>hours</span>
+                <span>{hours === "1" ? "hour" : "hours"}</span>
               </div>
             )}
             {minutes && (
               <div className="countdown-item">
                 <SVGCircle radius={minutesRadius} />
                 {minutes}
-                <span>minutes</span>
+                <span>{minutes === "1" ? "minute" : "minutes"}</span>
               </div>
             )}
             {seconds && (
               <div className="countdown-item">
                 <SVGCircle radius={secondsRadius} />
                 {seconds}
-                <span>seconds</span>
+                <span>{seconds === "1" ? "second" : "seconds"}</span>
               </div>
             )}
           </div>
