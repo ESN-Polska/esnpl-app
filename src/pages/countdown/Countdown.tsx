@@ -13,8 +13,6 @@ const calculateTimeLeft = () => {
   const now = moment();
   //@ts-ignore
   const countdown = moment(then - now);
-  const countdown2 = then.diff(now);
-  console.log(countdown2);
 
   const months = (parseInt(countdown.format("M")) - 1).toString();
   const days = countdown.format("D");
@@ -48,7 +46,6 @@ function Countdown() {
     return () => clearTimeout(timer);
   });
 
-  console.log("timeLeft", timeLeft);
   const { months, days, hours, minutes, seconds } = timeLeft;
 
   // Mapping the date values to radius values
